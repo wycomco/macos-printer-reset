@@ -2,8 +2,8 @@
 
 # This script will reset the printing system.
 # It was inspired by http://www.cnet.com/news/what-does-the-reset-print-system-routine-in-os-x-do/
-# This script should work for OS X 10.10 Yosemite and later. Pleas be aware that it has not been
-# tested on macOS versions before 10.14 "Mojave".
+# This script should work for OS X 10.10 Yosemite and later. Please be aware that it has not been
+# tested on macOS versions below 10.14 "Mojave".
 #
 # For macOS 10.15 "Catalina" and later the integrated printtool reset command will be used.
 
@@ -16,7 +16,7 @@ if [[ $majorVersion -ge 11 || $minorVersion -ge 15 ]]; then
   echo "Catalina or higher, using integrated command"
   /System/Library/Frameworks/ApplicationServices.framework/Frameworks/PrintCore.framework/Versions/A/printtool --reset -f
 else
-  echo "Mojave or lower, using integrated command"
+  echo "Mojave or lower, scripted reset"
   
   # Stop CUPS
   /bin/launchctl stop org.cups.cupsd
@@ -45,6 +45,6 @@ else
   /bin/launchctl start org.cups.cupsd
   
   # Remove all printers
-  /usr/bin/lpstat -p | /usr/bin/cut -d' ' -f2 | /usr/bin/xargs -I{} /usr/sbin/lpadmin -x {}
+  /usr/bin/lpstat -p | /usr/bin/cut -d' ' -f2 | /usr/bin/xargs -I {} /usr/sbin/lpadmin -x {}
   
 fi
